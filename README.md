@@ -106,7 +106,7 @@ def writeToElasticsearch(df, epoch_id):
 ### Step 4: Creating Kibana Visualizations
 4.1. Open Kibana and connect it to the Elasticsearch index containing the sensor data.
 
-4.2. Create visualizations according to the specifications in the `DE_Project_Kibana_Graphs.docx` document.
+4.2. Create visualizations on Kibana.
 
 4.3. Configure the Kibana dashboard to refresh every few seconds to display real-time changes in the graphs.
 
@@ -114,7 +114,7 @@ def writeToElasticsearch(df, epoch_id):
 
 - Access Kibana through your web browser at `http://localhost:5601`.
 
-- Go to the "Management" tab and create an index pattern for the `sensors_data` index in Elasticsearch.
+- Go to the "Management" tab and create an index pattern for the `office-index` index in Elasticsearch.
 
 - Navigate to the "Visualize" tab and create visualizations for CO2 concentration, humidity, temperature, light, and PIR motion sensor data according to the provided specifications.
 
