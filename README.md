@@ -1,7 +1,12 @@
-# Streaming Sensor Data Realtime Dashboard using PySpark, Kafka, Spark-Streaming, Elastic-Search and Kibana
+# Real-Time Visualization of Sensor Data with Spark Streaming, Kafka, and Kibana
 
 ## 1. Project Definition
 
-In this project, 
+This project aims to visualize sensor data in real-time by utilizing Spark Streaming, Kafka, and Kibana. The dataset contains data from 255 sensors in 51 rooms across 4 floors of the Sutardja Dai Hall at UC Berkeley. The data includes CO2 concentration, humidity, temperature, light, and PIR motion sensor readings. The project involves preprocessing the dataset, producing it into a Kafka topic, consuming the topic with Spark Streaming, and finally visualizing the data with Kibana.
 
 <img src="https://github.com/semihdesticioglu/Streaming_Sensor_Data_Realtime_Dashboard/blob/f1990afe1731b2495b0891c28c38f2b0705f9895/images/streaming_sensor_data.jpg" width=50% height=50%>
+
+## 2.Data 
+
+Dataset Download Link 
+Dataset Source on Kaggle
