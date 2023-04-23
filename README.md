@@ -20,10 +20,40 @@ The project involves
 
 Detail code for processing can be seen in notebook data_preparation.py. This part is an example from the code >
 
-```
-function test() {
-  console.log("notice the blank line before this function?");
-}
+```python
+from pyspark.sql.functions import from_unixtime, to_timestamp, lit
+# Process each room directory
+for room_dir in os.listdir("/home/train/datasets/sensors_dataset/sensors_dataset/KETI/"):
+    if  not room_dir.endswith('.txt'):
+        room_id = room_dir.strip() # Assumes the directory name is the room ID
+
+        # Initialize a dictionary to store the data for this room
+        room_data = {}
+
+        # Process each CSV file in the room directory
+        for sensor_file in os.listdir(f"/home/train/datasets/sensors_dataset/sensors_dataset/KETI/{room_dir}"):
+            sensor_name = sensor_file.strip().split('.')[0] # Assumes the file name is the sensor name
+
+            # Load the CSV file into a dataframe and add it to the room data dictionary
+            df = spark.read.format("csv") \
+                .option("header", False) \
+                .option("inferSchema", False) \
+                .schema(schema) \
+                .load(f"file:////home/train/datasets/sensors_dataset/sensors_dataset/KETI/{room_dir}/{sensor_file}") \
+                .withColumnRenamed("measurement", sensor_name) 
+
+            room_data[sensor_name] = df
+
+        # Combine the dataframes for all sensors into a single dataframe for this room
+        df = room_data['co2']
+        for sensor_name in ['light', 'temperature', 'humidity', 'pir']:
+            df = df.join(room_data[sensor_name], on="ts_min_bignt", how="inner")
+
+        # Add the room ID as a column
+        df = df.withColumn("room", lit(room_id))
+
+        # Add the combined dataframe to the list of dataframes
+        dfs.append(df)
 ```
 
 ###  Step 2: Producing Data to Kafka Topic
@@ -32,7 +62,10 @@ function test() {
 2.2. Produce the data into the office-input Kafka topic.
 
 Detail code for Producing data to kafka can be seen in notebook producing_data_on_kafka.py. This part is an example from the code >
-
+```
+--Create a kafka topic
+kafka-topics.sh --bootstrap-server localhost:9092 --create --topic office-input --partitions 5 --replication-factor 1
+```
 ```
 function test() {
   console.log("notice the blank line before this function?");
@@ -48,9 +81,12 @@ function test() {
 Detail code for Consuming data with Spark can be seen in notebook consuming_on_spark_write_to_es.py. This part is an example from the code >
 
 ```
-function test() {
-  console.log("notice the blank line before this function?");
-}
+--send data with producer-kafka
+python dataframe_to_kafka.py -rst 0.0001 -t office-input -i /home/train/datasets/sensors_dataset/datagen_input/part-00000-8ecd2de0-24e3-47c1-bd73-64ccc0a450c3-c000.csv
+```
+```
+--Create a kafka topic
+kafka-topics.sh --bootstrap-server localhost:9092 --create --topic office-input --partitions 5 --replication-factor 1
 ```
 
 ### Step 4: Creating Kibana Visualizations
