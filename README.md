@@ -27,7 +27,7 @@ function test() {
 ```
 
 ###  Step 2: Producing Data to Kafka Topic
-2.1. Create a data generator to read preprocessed data from the local disk.
+2.1. Use the data generator to read preprocessed data from the local disk.
 
 2.2. Produce the data into the office-input Kafka topic.
 
