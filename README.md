@@ -12,6 +12,10 @@ The project involves
 <img src="https://github.com/semihdesticioglu/Streaming_Sensor_Data_Realtime_Dashboard/blob/f1990afe1731b2495b0891c28c38f2b0705f9895/images/streaming_sensor_data.jpg" width=50% height=50%>
 
 ## 2. Usage Details
+####   Step 1 >> Preprocessing the Dataset with PySpark
+####   Step 2 >> Producing Data to Kafka Topic
+####   Step 3 >> Consuming Data with Spark Streaming and Write it to ElasticSearch
+####   Step 4 >> Creating Kibana Visualizations
 
 ###   Step 1: Preprocessing the Dataset with PySpark
 1.1. Load the dataset and convert it into the required format with PySpark.
