@@ -18,7 +18,7 @@ The project involves
 
 1.2. Save the preprocessed dataset to the local disk.
 
-Detail code for processing can be seen in notebook data_preparation.py. This part is an example from the code >
+This code-block is an example from the processing code >
 
 ```python
 from pyspark.sql.functions import from_unixtime, to_timestamp, lit
@@ -61,7 +61,6 @@ for room_dir in os.listdir("/home/train/datasets/sensors_dataset/sensors_dataset
 
 2.2. Produce the data into the office-input Kafka topic.
 
-Detail code for Producing data to kafka can be seen in notebook producing_data_on_kafka.py. This part is an example from the code >
 ```
 --Create a kafka topic
 kafka-topics.sh --bootstrap-server localhost:9092 --create --topic office-input --partitions 5 --replication-factor 1
@@ -77,11 +76,11 @@ python dataframe_to_kafka.py -rst 0.0001 -t office-input -i /home/train/datasets
 
 3.3. Write the structured data as an index to Elasticsearch.
 
-Detail code for Consuming data with Spark can be seen in notebook consuming_on_spark_write_to_es.py. This part is an example from the code >
+Detail code for Consuming data with Spark can be seen in notebook read_data_from_kafka.py. This part is an example from the code >
 
 
 ```python
---Read data from kafka topic
+# Read data from kafka topic
  = spark \
     .readStream \
     .format("kafka") \
@@ -92,7 +91,7 @@ Detail code for Consuming data with Spark can be seen in notebook consuming_on_s
 ```
 
 ```python
---Write  data to Elasticsearch
+# Write  data to Elasticsearch
 def writeToElasticsearch(df, epoch_id):
      df.write \
         .format("org.elasticsearch.spark.sql") \
@@ -110,6 +109,8 @@ def writeToElasticsearch(df, epoch_id):
 
 4.3. Configure the Kibana dashboard to refresh every few seconds to display real-time changes in the graphs.
 
+<img src="https://github.com/semihdesticioglu/Real-time-IoT-Sensor-Data-Dashboard/blob/1c9857db7a95690711f6c4e391ce63404399fe84/images/kibana_dashboard.JPG" width=100% height=100%>
+
 **Instructions:**
 
 - Access Kibana through your web browser at `http://localhost:5601`.
@@ -125,4 +126,3 @@ def writeToElasticsearch(df, epoch_id):
 - In the dashboard settings, set the auto-refresh interval to a few seconds (e.g., 5 seconds) to display real-time changes in the graphs.
 
 - Save the dashboard, and it will now display the sensor data in real-time with the specified visualizations.
-
