@@ -13,8 +13,8 @@ The project involves
 
 ## 2. Usage Details
 
-###   Step 1: Preprocessing the Dataset
-1.1. Load the dataset and convert it into the required format.
+###   Step 1: Preprocessing the Dataset with PySpark
+1.1. Load the dataset and convert it into the required format with PySpark.
 
 1.2. Save the preprocessed dataset to the local disk.
 
