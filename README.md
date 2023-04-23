@@ -6,7 +6,12 @@ This project aims to visualize sensor data in real-time by utilizing Spark Strea
 
 <img src="https://github.com/semihdesticioglu/Streaming_Sensor_Data_Realtime_Dashboard/blob/f1990afe1731b2495b0891c28c38f2b0705f9895/images/streaming_sensor_data.jpg" width=50% height=50%>
 
-## 2.Data 
+## 2. Usage Details
 
-Dataset Download Link 
-Dataset Source on Kaggle
+###   Step 1: Preprocessing the Dataset
+
+###  Step 2: Producing Data to Kafka Topic
+
+### Step 3: Consuming Data with Spark Streaming
+
+### Step 4: Creating Kibana Visualizations
