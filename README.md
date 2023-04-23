@@ -67,9 +67,8 @@ Detail code for Producing data to kafka can be seen in notebook producing_data_o
 kafka-topics.sh --bootstrap-server localhost:9092 --create --topic office-input --partitions 5 --replication-factor 1
 ```
 ```
-function test() {
-  console.log("notice the blank line before this function?");
-}
+--send data with producer-kafka
+python dataframe_to_kafka.py -rst 0.0001 -t office-input -i /home/train/datasets/sensors_dataset/datagen_input/part-00000-8ecd2de0-24e3-47c1-bd73-64ccc0a450c3-c000.csv
 ```
 ### Step 3: Consuming Data with Spark Streaming and Write it to ElasticSearch
 3.1. Create a Spark Streaming application to consume the office-input Kafka topic.
@@ -80,13 +79,28 @@ function test() {
 
 Detail code for Consuming data with Spark can be seen in notebook consuming_on_spark_write_to_es.py. This part is an example from the code >
 
+
+```python
+--Read data from kafka topic
+ = spark \
+    .readStream \
+    .format("kafka") \
+    .option("kafka.bootstrap.servers", "localhost:9092,localhost:9292") \
+    .option("subscribe", "office-input") \
+    .option("failOnDataLoss", "false") \
+    .load()
 ```
---send data with producer-kafka
-python dataframe_to_kafka.py -rst 0.0001 -t office-input -i /home/train/datasets/sensors_dataset/datagen_input/part-00000-8ecd2de0-24e3-47c1-bd73-64ccc0a450c3-c000.csv
-```
-```
---Create a kafka topic
-kafka-topics.sh --bootstrap-server localhost:9092 --create --topic office-input --partitions 5 --replication-factor 1
+
+```python
+--Write  data to Elasticsearch
+def writeToElasticsearch(df, epoch_id):
+     df.write \
+        .format("org.elasticsearch.spark.sql") \
+        .option("es.nodes", "localhost") \
+        .option("es.port", "9200") \
+        .option("es.resource", "office-index") \
+        .mode("append") \
+        .save()
 ```
 
 ### Step 4: Creating Kibana Visualizations
